@@ -1,0 +1,13 @@
+#pragma once
+#define MAC//∆ªπ˚
+#define MACX64
+#define MACX86
+#define WIN//Œ¢»Ì
+#define WINX64
+#define WINX86
+#define LINUX//linuxœµÕ≥
+#define LINUX64
+#define LINUX86
+#define HARMONY//∫Ë√…
+#define HARMONYX64
+#define HARMONYX86

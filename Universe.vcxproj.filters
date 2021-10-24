@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="tool">
+      <UniqueIdentifier>{e22bf030-b3f6-4f58-9297-0fe750ba8c25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="math">
+      <UniqueIdentifier>{851852a5-f982-4c31-b14b-0a72ea0fd211}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="space">
+      <UniqueIdentifier>{c8fd24a9-de6a-440e-8dd9-6a797359cd60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="info">
+      <UniqueIdentifier>{3b870153-46f9-47d4-8de4-88b96f440ab6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Universe.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="math\measure.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\Matrix.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="space\SpaceD.cpp">
+      <Filter>space</Filter>
+    </ClCompile>
+    <ClCompile Include="space\Point.cpp">
+      <Filter>space</Filter>
+    </ClCompile>
+    <ClCompile Include="math\Vector.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\CMatrix.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\CVector.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="info\CMySQL.cpp">
+      <Filter>info</Filter>
+    </ClCompile>
+    <ClCompile Include="info\CSocket.cpp">
+      <Filter>info</Filter>
+    </ClCompile>
+    <ClCompile Include="LiteAction.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="tool\list.h">
+      <Filter>tool</Filter>
+    </ClInclude>
+    <ClInclude Include="math\measure.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\Gather.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\Matrix.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\element.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="space\SpaceD.h">
+      <Filter>space</Filter>
+    </ClInclude>
+    <ClInclude Include="space\Point.h">
+      <Filter>space</Filter>
+    </ClInclude>
+    <ClInclude Include="math\Vector.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="math.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="tool\TMatrix.h">
+      <Filter>tool</Filter>
+    </ClInclude>
+    <ClInclude Include="tool\TVector.h">
+      <Filter>tool</Filter>
+    </ClInclude>
+    <ClInclude Include="math\Graph.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\CMatrix.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\CVector.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="info\CMySQL.h">
+      <Filter>info</Filter>
+    </ClInclude>
+    <ClInclude Include="info\CSocket.h">
+      <Filter>info</Filter>
+    </ClInclude>
+    <ClInclude Include="LiteAction.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
+    <None Include="DEFMACRO" />
+  </ItemGroup>
+</Project>
