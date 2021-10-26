@@ -1,7 +1,7 @@
 #pragma once
 #ifndef UNIVERSE_LIST
 #define UNIVERSE_LIST
-typedef unsigned long long nume;	//è®¡æ•°å™¨
+typedef unsigned long long nume;	//¼ÆÊýÆ÷
 
 template <class _CLASS>
 class vector
