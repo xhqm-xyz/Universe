@@ -10,7 +10,26 @@
 #include "info/CSocket.h"
 #include <iostream>
 using namespace::std;
-#pragma warning(disable : 4996)
+//#pragma warning(disable : 4996)
+
+
+void showinfo(vector<map<string, string>> &data) {
+	if (data.size() == 0)
+		return;
+	for (auto j : data[0])
+		cout << j.first << "\t";
+	cout << endl;
+	for (int i = 0; i < data.size(); i++) {
+		for (auto j : data[i])
+			cout << j.second << "\t";
+		cout << endl;
+	}
+}
+
+
+
+
+
 
 void fun(char* mes, int ret) {
 	mes[ret] = '\0';
@@ -34,69 +53,27 @@ int main() {
 
 
 	Mysql_info mysqlinfo;
-	mysqlinfo.ip = "192.168.1.10";
+	mysqlinfo.ip = "192.168.1.8";
 	mysqlinfo.username = "xhqm";
 	mysqlinfo.password = "xhqm";
 
 	CMySQL mysql;
 	mysql.UpMySQLInfo(mysqlinfo);
+	cout << mysql.MySQLCommandError();
+	mysql.SelectDataBase("money");
+	cout << mysql.MySQLCommandError();
+	mysql.ShowDataBase("money");
+	cout << mysql.MySQLCommandError();
 
 
-	mysql.ShowDataBase("new_schema","test123456");
-			
 
 
-	//GatherS signs;
-	//signs + 'a';
-	//signs + 'B';
-	//signs + '0';
-	//string str = string(&signs[1]) + string(&signs[1]) + string(&signs[1]);
-
-	//sure a = 0.99999999999999999;
-	//cout << a<< (int)a << endl;
-	//cout << str << endl;
-
-	////cout<< ;// <<  << signs[3] << endl;
-
-	////cout << "////" << oned2<dou>.size();
+	//vector<map<string, string>> data;
+	//mysql.Select("test", "time,id,time", &data);
+	//showinfo(data);
 
 
-	////SpaceD A(THRD);
-	//
-	//TMatrix<int> A(3,3);
 
-	//std::cout << "\n";
-	//std::cout << "\n";
-
-
-	//TMatrix<double> P(3, 3);
-	//P[0][0] = 1, P[0][1] = 2, P[0][2] = 3;
-	//P[1][0] = 2, P[1][1] = 3, P[1][2] = 1;
-	//P[2][0] = 3, P[2][1] = 1, P[2][2] = 2;
-
-	//TMatrix<double> P1(3, 3);
-	//P1[0][0] = 3, P1[0][1] = 2, P1[0][2] = -1;
-	//P1[1][0] = 1, P1[1][1] = 3, P1[1][2] = -2;
-	//P1[2][0] = 2, P1[2][1] = 1, P1[2][2] = -3;
-
-	//TMatrix<double> X(3, 3);
-	////X = A.GetRotateY(Pi/2);
-	//X = P * P1;
-
-
-	////if (X == P1)
-	//	for (int i = 0; i < X.GetDn(); i++) {
-	//		for (int j = 0; j < X.GetDm(); j++)
-	//			std::cout << X[i][j] << "\t";
-	//		std::cout << "\n";
-	//	}
-
-	/**/
-
-/*
-	for (nume i = 0; i < Z.GetPotential(); i++, Z++)
-		std::cout << Z.GetElement()->Getdata() << "\n";
-	*/
 	return 0;
 }
 
@@ -105,7 +82,57 @@ int main() {
 
 
 
+//GatherS signs;
+//signs + 'a';
+//signs + 'B';
+//signs + '0';
+//string str = string(&signs[1]) + string(&signs[1]) + string(&signs[1]);
 
+//sure a = 0.99999999999999999;
+//cout << a<< (int)a << endl;
+//cout << str << endl;
+
+////cout<< ;// <<  << signs[3] << endl;
+
+////cout << "////" << oned2<dou>.size();
+
+
+////SpaceD A(THRD);
+//
+//TMatrix<int> A(3,3);
+
+//std::cout << "\n";
+//std::cout << "\n";
+
+
+//TMatrix<double> P(3, 3);
+//P[0][0] = 1, P[0][1] = 2, P[0][2] = 3;
+//P[1][0] = 2, P[1][1] = 3, P[1][2] = 1;
+//P[2][0] = 3, P[2][1] = 1, P[2][2] = 2;
+
+//TMatrix<double> P1(3, 3);
+//P1[0][0] = 3, P1[0][1] = 2, P1[0][2] = -1;
+//P1[1][0] = 1, P1[1][1] = 3, P1[1][2] = -2;
+//P1[2][0] = 2, P1[2][1] = 1, P1[2][2] = -3;
+
+//TMatrix<double> X(3, 3);
+////X = A.GetRotateY(Pi/2);
+//X = P * P1;
+
+
+////if (X == P1)
+//	for (int i = 0; i < X.GetDn(); i++) {
+//		for (int j = 0; j < X.GetDm(); j++)
+//			std::cout << X[i][j] << "\t";
+//		std::cout << "\n";
+//	}
+
+/**/
+
+/*
+	for (nume i = 0; i < Z.GetPotential(); i++, Z++)
+		std::cout << Z.GetElement()->Getdata() << "\n";
+	*/
 
 
 /*
