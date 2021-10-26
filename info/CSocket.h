@@ -22,11 +22,11 @@ struct ClientConnect {
 	SOCKET socket;
 	sockaddr_in addr;
 	std::string ipform = "";
-	bool m_accept = false;//æ˜¯å¦å¤„äºè¿æ¥çŠ¶æ€
+	bool m_accept = false;//ÊÇ·ñ´¦ÓÚÁ¬½Ó×´Ì¬
 	std::thread* cl_thr = nullptr;
 };
 
-class CSocket_Server//æœåŠ¡å™¨
+class CSocket_Server//·şÎñÆ÷
 {
 public:
 	CSocket_Server(int port, IPPROTO net = IPPROTO_TCP);
@@ -44,21 +44,21 @@ public:
 	static bool StarListen(CSocket_Server* server);
 	static bool StopListen(CSocket_Server* server);
 	static bool Ssend(const char* mes, SOCKET socket);
-	static void Srecv(Sock_DealFun Fun, SOCKET socket);//è¿”å›å­—èŠ‚çš„é•¿åº¦
+	static void Srecv(Sock_DealFun Fun, SOCKET socket);//·µ»Ø×Ö½ÚµÄ³¤¶È
 public:
 
 protected:
 	wsa_info Sever_info;
-	bool m_wsa;		//åˆå§‹åŒ–
-	bool m_bind;	//ç»‘å®šIP
-	bool m_socket;	//å¥—æ¥å­—
-	bool m_listen;	//æ˜¯å¦æ­£åœ¨ç›‘å¬  
+	bool m_wsa;		//³õÊ¼»¯
+	bool m_bind;	//°ó¶¨IP
+	bool m_socket;	//Ì×½Ó×Ö
+	bool m_listen;	//ÊÇ·ñÕıÔÚ¼àÌı  
 	std::thread* m_listener = nullptr;
 	std::vector<std::string> IPList;
 	std::vector<ClientConnect*> ClientList;
 };
 
-class CSocket_Client//å®¢æˆ·ç«¯
+class CSocket_Client//¿Í»§¶Ë
 {
 public:
 	CSocket_Client(std::string ip, int port, IPPROTO net = IPPROTO_TCP);
@@ -72,7 +72,7 @@ public:
 
 protected:
 	wsa_info Client_info;
-	bool m_wsa;		//åˆå§‹åŒ–
-	bool m_socket;	//å¥—æ¥å­—
-	bool m_connect;	//é“¾æ¥ä¸å¦
+	bool m_wsa;		//³õÊ¼»¯
+	bool m_socket;	//Ì×½Ó×Ö
+	bool m_connect;	//Á´½ÓÓë·ñ
 };
