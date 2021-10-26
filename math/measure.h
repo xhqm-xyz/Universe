@@ -16,23 +16,23 @@ using namespace std;
 constexpr auto Pi = 3.141592653578;
 constexpr auto PRECI = 0.00000000001;
 
-typedef unsigned long long counter;	//è®¡æ•°å™¨
-typedef unsigned long long natural;	//è‡ªç„¶æ•°
-typedef long long integer;			//æ•´æ•°
-typedef double measure;				//å®æ•°
-typedef bool bytebit;				//çœŸå€¼
-typedef char symbols;				//ç¬¦å·
-class portion;						//åˆ†æ•°
-class complex;						//å¤æ•°
+typedef unsigned long long counter;	//¼ÆÊıÆ÷
+typedef unsigned long long natural;	//×ÔÈ»Êı
+typedef long long integer;			//ÕûÊı
+typedef double measure;				//ÊµÊı
+typedef bool bytebit;				//ÕæÖµ
+typedef char symbols;				//·ûºÅ
+class portion;						//·ÖÊı
+class complex;						//¸´Êı
 
-typedef counter nume;	//è®¡æ•°å™¨
-typedef natural natu;	//è‡ªç„¶æ•°
-typedef integer inte;	//æ•´æ•°
-typedef measure sure;	//å®æ•°
-typedef bytebit bite;	//çœŸå‡
-typedef symbols sign;	//ç¬¦å·
-typedef portion port;	//åˆ†æ•°
-typedef complex plex;	//å¤æ•°
+typedef counter nume;	//¼ÆÊıÆ÷
+typedef natural natu;	//×ÔÈ»Êı
+typedef integer inte;	//ÕûÊı
+typedef measure sure;	//ÊµÊı
+typedef bytebit bite;	//Õæ¼Ù
+typedef symbols sign;	//·ûºÅ
+typedef portion port;	//·ÖÊı
+typedef complex plex;	//¸´Êı
 
 #define Oned(_T) vector<_T>
 #define Vect(_T) vector<_T>
@@ -127,14 +127,14 @@ public:
 			_inf = true;
 		}reduce();
 	};
-	void recport();						//å€’æ•°
-	static port recport(port recPort);	//å€’æ•°
-	static inte Minmul(inte n, inte m);	//æœ€å°å…¬å€æ•°
-	static inte Maxdiv(inte n, inte m);	//æœ€å¤§å…¬çº¦æ•°
-	static sure ToSure(port Port);	//åˆ†æ•°è½¬æµ‹åº¦
-	static port ToPort(sure Sure);	//æµ‹åº¦è½¬åˆ†æ•°
-	void unredu(natu red = 1);	//æ’ç­‰å˜æ¢
-	void reduce(natu ure = 0);	//çº¦åˆ†å˜æ¢
+	void recport();						//µ¹Êı
+	static port recport(port recPort);	//µ¹Êı
+	static inte Minmul(inte n, inte m);	//×îĞ¡¹«±¶Êı
+	static inte Maxdiv(inte n, inte m);	//×î´ó¹«Ô¼Êı
+	static sure ToSure(port Port);	//·ÖÊı×ª²â¶È
+	static port ToPort(sure Sure);	//²â¶È×ª·ÖÊı
+	void unredu(natu red = 1);	//ºãµÈ±ä»»
+	void reduce(natu ure = 0);	//Ô¼·Ö±ä»»
 	inte getmo() { return _mo; };
 	inte getde() { return _de; };
 
@@ -191,7 +191,7 @@ public:
 	};
 	~complex() { };
 
-	sure GetModulus();			//å¾—åˆ°å¤æ•°çš„æ¨¡
+	sure GetModulus();			//µÃµ½¸´ÊıµÄÄ£
 	complex GetConjugate();
 
 	complex operator = (const complex& ijk);
