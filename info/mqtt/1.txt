@@ -1,1 +1,3 @@
 //最好使用release版
+info/mqtt/include/
+info/mqtt/lib/
