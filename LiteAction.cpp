@@ -2,30 +2,17 @@
 
 void LiteAction::tosl(char num, char* txtdata) {
 	int _num = num - 0xffffff00;
-	int num_0 = _num / 16;
-	int num_1 = _num % 16;
-	num_0 %= 16;
-	if (num_0 < 10)
-		txtdata[0] = '0' + num_0;
-	else
-		txtdata[0] = 'A' + (num_0 - 10);
-	if (num_1 < 10)
-		txtdata[1] = '0' + num_1;
-	else
-		txtdata[1] = 'A' + (num_1 - 10);
+	txtdata[0] = (_num >> 4) % 16;
+	txtdata[1] = _num % 16;
+	txtdata[0] < 10 ? txtdata[0] += '0' : txtdata[0] = 'A' + txtdata[0] - 10;
+	txtdata[1] < 10 ? txtdata[1] += '0' : txtdata[1] = 'A' + txtdata[1] - 10;
 	txtdata[2] = '\0';
 }
 
 void LiteAction::tonu(char* txtdata, char&num){
-	num = 0;
-	if (txtdata[1] < 'A')
-		num |= txtdata[1] - '0';
-	else
-		num |= txtdata[1] - 'A' + 10;
-	if (txtdata[0] < 'A')
-		num |= ((txtdata[0] - '0') << 4);
-	else
-		num |= ((txtdata[0] - 'A' + 10) << 4);
+	num = 0x0;
+	txtdata[1] < 'A' ? num = (txtdata[1] - '0'): num = (txtdata[1] - 'A' + 10);
+	txtdata[0] < 'A' ? num |= (txtdata[0] - '0') << 4  : num |= (txtdata[0] - 'A' + 10) << 4;		
 }
 
 std::string LiteAction::StringTo_ASICLL16(const std::string str){

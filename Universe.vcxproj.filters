@@ -36,19 +36,7 @@
     <ClCompile Include="math\Matrix.cpp">
       <Filter>math</Filter>
     </ClCompile>
-    <ClCompile Include="space\SpaceD.cpp">
-      <Filter>space</Filter>
-    </ClCompile>
-    <ClCompile Include="space\Point.cpp">
-      <Filter>space</Filter>
-    </ClCompile>
     <ClCompile Include="math\Vector.cpp">
-      <Filter>math</Filter>
-    </ClCompile>
-    <ClCompile Include="math\CMatrix.cpp">
-      <Filter>math</Filter>
-    </ClCompile>
-    <ClCompile Include="math\CVector.cpp">
       <Filter>math</Filter>
     </ClCompile>
     <ClCompile Include="info\CMySQL.cpp">
@@ -60,9 +48,51 @@
     <ClCompile Include="LiteAction.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="math\Point.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="tool\XList.cpp">
+      <Filter>tool</Filter>
+    </ClCompile>
+    <ClCompile Include="tool\TVector.cpp">
+      <Filter>tool</Filter>
+    </ClCompile>
+    <ClCompile Include="space\CoorSys.cpp">
+      <Filter>space</Filter>
+    </ClCompile>
+    <ClCompile Include="space\Space.cpp">
+      <Filter>space</Filter>
+    </ClCompile>
+    <ClCompile Include="space\SView.cpp">
+      <Filter>space</Filter>
+    </ClCompile>
+    <ClCompile Include="space\Space\CVector.cpp">
+      <Filter>space</Filter>
+    </ClCompile>
+    <ClCompile Include="space\Space\SCube.cpp">
+      <Filter>space</Filter>
+    </ClCompile>
+    <ClCompile Include="space\Space\SFace.cpp">
+      <Filter>space</Filter>
+    </ClCompile>
+    <ClCompile Include="space\Space\SLine.cpp">
+      <Filter>space</Filter>
+    </ClCompile>
+    <ClCompile Include="space\Space\Smath.cpp">
+      <Filter>space</Filter>
+    </ClCompile>
+    <ClCompile Include="space\Space\SMatrix.cpp">
+      <Filter>space</Filter>
+    </ClCompile>
+    <ClCompile Include="space\Space\SPoint.cpp">
+      <Filter>space</Filter>
+    </ClCompile>
+    <ClCompile Include="info\CMQTT.cpp">
+      <Filter>info</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="tool\list.h">
+    <ClInclude Include="tool\XList.h">
       <Filter>tool</Filter>
     </ClInclude>
     <ClInclude Include="math\measure.h">
@@ -74,14 +104,8 @@
     <ClInclude Include="math\Matrix.h">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="math\element.h">
+    <ClInclude Include="math\container.h">
       <Filter>math</Filter>
-    </ClInclude>
-    <ClInclude Include="space\SpaceD.h">
-      <Filter>space</Filter>
-    </ClInclude>
-    <ClInclude Include="space\Point.h">
-      <Filter>space</Filter>
     </ClInclude>
     <ClInclude Include="math\Vector.h">
       <Filter>math</Filter>
@@ -98,12 +122,6 @@
     <ClInclude Include="math\Graph.h">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="math\CMatrix.h">
-      <Filter>math</Filter>
-    </ClInclude>
-    <ClInclude Include="math\CVector.h">
-      <Filter>math</Filter>
-    </ClInclude>
     <ClInclude Include="info\CMySQL.h">
       <Filter>info</Filter>
     </ClInclude>
@@ -112,6 +130,45 @@
     </ClInclude>
     <ClInclude Include="LiteAction.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="math\Point.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\Tree.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="space\CoorSys.h">
+      <Filter>space</Filter>
+    </ClInclude>
+    <ClInclude Include="space\Space.h">
+      <Filter>space</Filter>
+    </ClInclude>
+    <ClInclude Include="space\SView.h">
+      <Filter>space</Filter>
+    </ClInclude>
+    <ClInclude Include="space\Space\SCube.h">
+      <Filter>space</Filter>
+    </ClInclude>
+    <ClInclude Include="space\Space\SFace.h">
+      <Filter>space</Filter>
+    </ClInclude>
+    <ClInclude Include="space\Space\SLine.h">
+      <Filter>space</Filter>
+    </ClInclude>
+    <ClInclude Include="space\Space\Smath.h">
+      <Filter>space</Filter>
+    </ClInclude>
+    <ClInclude Include="space\Space\SMatrix.h">
+      <Filter>space</Filter>
+    </ClInclude>
+    <ClInclude Include="space\Space\SPoint.h">
+      <Filter>space</Filter>
+    </ClInclude>
+    <ClInclude Include="space\Space\SVector.h">
+      <Filter>space</Filter>
+    </ClInclude>
+    <ClInclude Include="info\CMQTT.h">
+      <Filter>info</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

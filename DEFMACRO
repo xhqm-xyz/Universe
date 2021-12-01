@@ -1,13 +1,68 @@
 #pragma once
-#define MAC//∆ªπ˚
-#define MACX64
-#define MACX86
-#define WIN//Œ¢»Ì
-#define WINX64
-#define WINX86
-#define LINUX//linuxœµÕ≥
-#define LINUX64
-#define LINUX86
-#define HARMONY//∫Ë√…
-#define HARMONYX64
-#define HARMONYX86
+#undef MAC//∆ªπ˚
+#undef MACX64
+#undef MACX86
+#undef WIN//Œ¢»Ì
+#undef WINX64
+#undef WINX86
+#undef LINUX//linuxœµÕ≥
+#undef LINUX64
+#undef LINUX86
+#undef HARMONY//∫Ë√…
+#undef HARMONYX64
+#undef HARMONYX86
+
+/****/
+#define WIN
+/****/
+
+#ifdef MACX64
+#define MAC
+#endif // MACX64
+#ifdef MACX86
+#define MAC
+#endif // MACX86
+
+#ifdef WINX64
+#define WIN
+#endif // WINX64
+#ifdef WINX86
+#define WIN
+#endif // WINX86
+
+#ifdef WINX64
+#define WIN
+#endif // WINX64
+#ifdef WINX86
+#define WIN
+#endif // WINX86
+
+#ifdef LINUX64
+#define LINUX
+#endif // LINUX64
+#ifdef LINUX86
+#define LINUX
+#endif // LINUX86
+
+#ifdef HARMONYX64
+#define HARMONY
+#endif // HARMONYX64
+#ifdef HARMONYX86
+#define HARMONY
+#endif // HARMONYX86
+
+#ifdef MAC
+#define XSleep Sleep
+#endif // MAC
+
+#ifdef WIN
+#define XSleep Sleep
+#endif // WIN
+
+#ifdef LINUX
+#define XSleep sleep
+#endif // LINUX
+
+#ifdef HARMONY
+#define XSleep Sleep
+#endif // HARMONY

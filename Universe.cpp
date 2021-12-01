@@ -1,13 +1,16 @@
 ﻿#include "DEFMACRO"
 #include "LiteAction.h"
 //#include"./tool/list.h"
-#include "math/measure.h"
-#include "math/Matrix.h"
-#include "math/Gather.h"
-#include "space/SpaceD.h"
-#include "tool/TMatrix.h"
+
+#include "tool/TVector.h"
+//#include "math/measure.h"
+//#include "math/Matrix.h"
+//#include "math/Gather.h"
+#include "info/CMQTT.h"
 #include "info/CMySQL.h"
 #include "info/CSocket.h"
+#include "space/Space.h"
+
 #include <iostream>
 using namespace::std;
 //#pragma warning(disable : 4996)
@@ -27,10 +30,6 @@ void showinfo(vector<map<string, string>> &data) {
 }
 
 
-
-
-
-
 void fun(char* mes, int ret) {
 	mes[ret] = '\0';
 	printf("%s", mes);
@@ -38,42 +37,47 @@ void fun(char* mes, int ret) {
 
 
 int main() {
-	//cout << LiteAction::GetFileTime("d:/123.txt");
-	//int n = 0;
-	//string str;
-	//Sock_DealFun Fun = fun;
-	//CSocket_Server server(8787);
-	//while (1) {
-	//	if (server.GetClientIPlist().size() != 0) {
-	//		cout << "find ip" << n++ << "=" << server.GetClientIPlist()[0] << endl;
-	//		server.Ssend(to_string(n).c_str(), server.GetClientIPlist()[0]);
-	//	}
-	//}
-	//std::cin >> str;
+
+	/*GatherS signs;
+	signs + 'a';
+	signs + 'B';
+	signs + '0';
+	string str = string(&signs[1]) + string(&signs[1]) + string(&signs[1]);
+	GatherS zig;
+	if (zig != signs)
+		cout << "123456" << endl;
+	sure a = 0.99999999999999999;
+	cout << a<< (int)a << endl;*/
+	//cout << str << endl;
+
+	//cout<< ;// <<  << signs[3] << endl;
+
+	//cout << "////" << oned2<dou>.size();
 
 
-	Mysql_info mysqlinfo;
-	mysqlinfo.ip = "192.168.1.8";
+
+	//cout<< ;// <<  << signs[3] << endl;
+
+	//cout << "////" << oned2<dou>.size();
+	/*Mysql_info mysqlinfo;
+	mysqlinfo.port = 3306;
+	mysqlinfo.ip = "120.79.95.135";
 	mysqlinfo.username = "xhqm";
-	mysqlinfo.password = "xhqm";
+	mysqlinfo.password = "xhqm123456";
 
 	CMySQL mysql;
 	mysql.UpMySQLInfo(mysqlinfo);
 	cout << mysql.MySQLCommandError();
-	mysql.SelectDataBase("money");
+	mysql.SelectDataBase("qm_shop");
 	cout << mysql.MySQLCommandError();
-	mysql.ShowDataBase("money");
-	cout << mysql.MySQLCommandError();
+	mysql.ShowDataBase("qm_shop","DAY_INFO");
+	cout << mysql.MySQLCommandError();*/
 
 
 
-
-	//vector<map<string, string>> data;
-	//mysql.Select("test", "time,id,time", &data);
-	//showinfo(data);
-
-
-
+	CMQTT mqtt(3);
+	mqtt.CreateClient("admin","admin","127.0.0.1","1883","id1");
+	mqtt.ConnectClient("id1");
 	return 0;
 }
 
@@ -82,19 +86,32 @@ int main() {
 
 
 
-//GatherS signs;
-//signs + 'a';
-//signs + 'B';
-//signs + '0';
-//string str = string(&signs[1]) + string(&signs[1]) + string(&signs[1]);
 
-//sure a = 0.99999999999999999;
-//cout << a<< (int)a << endl;
-//cout << str << endl;
 
-////cout<< ;// <<  << signs[3] << endl;
 
-////cout << "////" << oned2<dou>.size();
+
+
+
+
+
+
+//cout << LiteAction::GetFileTime("d:/123.txt");
+//int n = 0;
+//string str;
+//Sock_DealFun Fun = fun;
+//CSocket_Server server(8787);
+//while (1) {
+//	if (server.GetClientIPlist().size() != 0) {
+//		cout << "find ip" << n++ << "=" << server.GetClientIPlist()[0] << endl;
+//		server.Ssend(to_string(n).c_str(), server.GetClientIPlist()[0]);
+//	}
+//}
+//std::cin >> str;
+
+
+
+
+
 
 
 ////SpaceD A(THRD);

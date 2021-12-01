@@ -140,34 +140,53 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="info\CMQTT.cpp" />
     <ClCompile Include="info\CMySQL.cpp" />
     <ClCompile Include="info\CSocket.cpp" />
     <ClCompile Include="LiteAction.cpp" />
-    <ClCompile Include="math\CMatrix.cpp" />
-    <ClCompile Include="math\CVector.cpp" />
     <ClCompile Include="math\Matrix.cpp" />
     <ClCompile Include="math\measure.cpp" />
+    <ClCompile Include="math\Point.cpp" />
     <ClCompile Include="math\Vector.cpp" />
-    <ClCompile Include="space\Point.cpp" />
-    <ClCompile Include="space\SpaceD.cpp" />
+    <ClCompile Include="space\CoorSys.cpp" />
+    <ClCompile Include="space\Space.cpp" />
+    <ClCompile Include="space\Space\CVector.cpp" />
+    <ClCompile Include="space\Space\SCube.cpp" />
+    <ClCompile Include="space\Space\SFace.cpp" />
+    <ClCompile Include="space\Space\SLine.cpp" />
+    <ClCompile Include="space\Space\Smath.cpp" />
+    <ClCompile Include="space\Space\SMatrix.cpp" />
+    <ClCompile Include="space\Space\SPoint.cpp" />
+    <ClCompile Include="space\SView.cpp" />
+    <ClCompile Include="tool\TVector.cpp" />
+    <ClCompile Include="tool\XList.cpp" />
     <ClCompile Include="Universe.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="info\CMQTT.h" />
     <ClInclude Include="info\CMySQL.h" />
     <ClInclude Include="info\CSocket.h" />
     <ClInclude Include="LiteAction.h" />
     <ClInclude Include="math.h" />
-    <ClInclude Include="math\CMatrix.h" />
-    <ClInclude Include="math\CVector.h" />
-    <ClInclude Include="math\element.h" />
+    <ClInclude Include="math\container.h" />
     <ClInclude Include="math\Gather.h" />
     <ClInclude Include="math\Graph.h" />
     <ClInclude Include="math\Matrix.h" />
     <ClInclude Include="math\measure.h" />
+    <ClInclude Include="math\Point.h" />
+    <ClInclude Include="math\Tree.h" />
     <ClInclude Include="math\Vector.h" />
-    <ClInclude Include="space\Point.h" />
-    <ClInclude Include="space\SpaceD.h" />
-    <ClInclude Include="tool\list.h" />
+    <ClInclude Include="space\CoorSys.h" />
+    <ClInclude Include="space\Space.h" />
+    <ClInclude Include="space\Space\SCube.h" />
+    <ClInclude Include="space\Space\SFace.h" />
+    <ClInclude Include="space\Space\SLine.h" />
+    <ClInclude Include="space\Space\Smath.h" />
+    <ClInclude Include="space\Space\SMatrix.h" />
+    <ClInclude Include="space\Space\SPoint.h" />
+    <ClInclude Include="space\Space\SVector.h" />
+    <ClInclude Include="space\SView.h" />
+    <ClInclude Include="tool\XList.h" />
     <ClInclude Include="tool\TMatrix.h" />
     <ClInclude Include="tool\TVector.h" />
   </ItemGroup>
