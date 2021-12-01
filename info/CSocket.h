@@ -1,5 +1,6 @@
 #pragma once
 //#define WIN32_LEAN_AND_MEAN
+#include <cstdio>
 #include <string>
 #include <vector>
 #include <thread>
@@ -11,16 +12,16 @@
 typedef void (*Sock_DealFun)(char*, int);
 
 struct wsa_info {
-	u_short port;
-	std::string IP;
-	sockaddr_in addr;
-	SOCKET socket;
-	WSADATA wsaData;
+	u_short port = 0;
+	std::string IP = "";
+	sockaddr_in addr = { 0 };
+	SOCKET socket = { 0 };
+	WSADATA wsaData = { 0 };
 	WORD sockVersion = MAKEWORD(2, 2);
 };
 struct ClientConnect {
-	SOCKET socket;
-	sockaddr_in addr;
+	SOCKET socket = {0};
+	sockaddr_in addr = { 0 };
 	std::string ipform = "";
 	bool m_accept = false;//是否处于连接状态
 	std::thread* cl_thr = nullptr;

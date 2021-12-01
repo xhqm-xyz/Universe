@@ -57,10 +57,13 @@ public:
     Mysql_info GetMySQLInfo() { return mysql_info; };
     DataBase_info* GetNowDataBase() { return database_info; };
     std::string MySQLCommandError() { return m_errorcode; }
+    MYSQL_RES* MySQLCommandRes() { return m_res; };
     bool MySQLCommand(std::string command);
-    bool MySQLCommandRes();
 
-
+    bool Insert(std::string tabname, std::string data);
+    bool Delete(std::string tabname, std::string conditions = "");
+    bool Updata(std::string tabname, std::string key, std::string val, std::string conditions = "");
+    bool Select(std::string tabname, std::string key = "*", std::vector<std::map<std::string, std::string>>*res = NULL, std::string conditions = "");
     bool SelectDataBase(std::string DatabaseName = "");
 private:
     void CloseDataBase();
@@ -74,6 +77,6 @@ public:
 private:
     Mysql_info mysql_info;//链接的MySQL信息
     DataBase_info* database_info = nullptr; //此时操作的的数据库信息
-    std::string m_errorcode; //最近一次的错误码
-    MYSQL_RES* m_res;//这个结构代表返回行的一个查询结果集  
+    std::string m_errorcode = ""; //最近一次的错误码
+    MYSQL_RES* m_res = nullptr;//查询结果集  
 };

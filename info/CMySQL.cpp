@@ -61,7 +61,7 @@ void CMySQL::UpMySQLInfo(const std::string ip, const std::string username, const
         mysql_info.connect = true;//中间分别是主机，用户名，密码，数据库名，端口号（可以写默认0或者3306等），可以先写成参数再传进去
         _open_mysql();
     }else
-        m_errorcode = std::string(mysql_error(database_info->mysql));
+        m_errorcode = std::string(mysql_error(mysql_info.mysql));
 }
 
 void CMySQL::ShowDataBase(std::string dbname, std::string tabbname)
@@ -148,8 +148,8 @@ void CMySQL::_dblist(){
     if (!(res = mysql_store_result(mysql_info.mysql)))  {
         m_errorcode = std::string(mysql_error(mysql_info.mysql));
         return;
-    }int db_num = mysql_affected_rows(mysql_info.mysql);
-    for (int i = 0; i < db_num; i++) {
+    }long long db_num = mysql_affected_rows(mysql_info.mysql);
+    for (long long i = 0; i < db_num; i++) {
         DataBase_info* dbinfo = new DataBase_info;
         dbinfo->database_name = std::string(*mysql_fetch_row(res));
         mysql_info.databases.push_back(dbinfo);
@@ -178,8 +178,8 @@ void CMySQL::_tablist(){
             m_errorcode = std::string(mysql_error((*dbit)->mysql));
             mysql_close((*dbit)->mysql);
             return;
-        }int tab_num = mysql_affected_rows((*dbit)->mysql);
-        for (int i = 0; i < tab_num; i++) {
+        }long long tab_num = mysql_affected_rows((*dbit)->mysql);
+        for (long long i = 0; i < tab_num; i++) {
             Table_info tabinfo;
             tabinfo.table_name = std::string(*mysql_fetch_row(res));
             if (!_fieldlist((*dbit)->mysql, &tabinfo)) {
@@ -201,8 +201,8 @@ bool CMySQL::_fieldlist(MYSQL* mysql, Table_info* tabname){
     if (!(res = mysql_store_result(mysql))) {
         m_errorcode = std::string(mysql_error(mysql));
         return false;
-    }int field_num = mysql_affected_rows(mysql);
-    for (int i = 0; i < field_num; i++) {
+    }long long field_num = mysql_affected_rows(mysql);
+    for (long long i = 0; i < field_num; i++) {
         std::string fieldname = std::string(*mysql_fetch_row(res));
         tabname->fields.push_back(fieldname);
     }return true;
@@ -244,7 +244,85 @@ bool CMySQL::MySQLCommand(std::string command)
     return true;
 }
 
-bool CMySQL::MySQLCommandRes()
+bool CMySQL::Insert(std::string tabname, std::string data)
 {
-    return false;
+    std::string command = "insert into " + tabname + " values " + data + ";";
+    if (!database_info || database_info->connect == false)
+        return false;
+    mysql_query(database_info->mysql, m_code.c_str());
+    if (mysql_query(database_info->mysql, command.c_str())) {//执行SQL语句
+        m_errorcode = std::string(mysql_error(database_info->mysql));
+        return false;
+    }
+    if (!(m_res = mysql_store_result(database_info->mysql))) {//获得sql语句结束后返回的结果集  
+        m_errorcode = std::string(mysql_error(database_info->mysql));
+        return false;
+    }
+    return true;
+}
+
+bool CMySQL::Delete(std::string tabname, std::string conditions)
+{
+    std::string command = "delete from " + tabname + " " + conditions + ";";
+    if (!database_info || database_info->connect == false)
+        return false;
+    mysql_query(database_info->mysql, m_code.c_str());
+    if (mysql_query(database_info->mysql, command.c_str())) {//执行SQL语句
+        m_errorcode = std::string(mysql_error(database_info->mysql));
+        return false;
+    }
+    if (!(m_res = mysql_store_result(database_info->mysql))) {//获得sql语句结束后返回的结果集  
+        m_errorcode = std::string(mysql_error(database_info->mysql));
+        return false;
+    }
+    return true;
+}
+
+bool CMySQL::Updata(std::string tabname, std::string key, std::string val, std::string conditions)
+{
+    std::string command = "update " + tabname + " set " + key + " = " + val + " " + conditions + ";";
+    if (!database_info || database_info->connect == false)
+        return false;
+    mysql_query(database_info->mysql, m_code.c_str());
+    if (mysql_query(database_info->mysql, command.c_str())) {//执行SQL语句
+        m_errorcode = std::string(mysql_error(database_info->mysql));
+        return false;
+    }
+    if (!(m_res = mysql_store_result(database_info->mysql))) {//获得sql语句结束后返回的结果集  
+        m_errorcode = std::string(mysql_error(database_info->mysql));
+        return false;
+    }
+    return true;
+}
+
+bool CMySQL::Select(std::string tabname, std::string key, std::vector<std::map<std::string, std::string>>*res, std::string conditions)
+{
+    std::string command = "select " + key + " from " + tabname + " " + conditions + ";";
+    if (!res || !database_info || database_info->connect == false)
+        return false;
+    mysql_query(database_info->mysql, m_code.c_str());
+    if (mysql_query(database_info->mysql, command.c_str())) {//执行SQL语句
+        m_errorcode = std::string(mysql_error(database_info->mysql));
+        return false;
+    }
+    if (!(m_res = mysql_store_result(database_info->mysql))) {//获得sql语句结束后返回的结果集  
+        m_errorcode = std::string(mysql_error(database_info->mysql));
+        return false;
+    }
+    res->clear();
+    long long name_num = 1;
+    for (int i = 0; i < key.length(); i++)
+        if (key[i] == ',')
+            name_num++;
+
+    long long data_num = mysql_affected_rows(database_info->mysql);
+    auto dataname = mysql_fetch_field(m_res);
+    auto tabit = database_info->tables.begin();
+    for (long long i = 0; i < data_num; i++) {
+        auto datastr = mysql_fetch_row(m_res);
+        std::map<std::string, std::string> key_val;
+        for (int j = 0; j < name_num; j++)
+            key_val[dataname[j].name] = std::string(datastr[j]);
+        res->push_back(key_val);
+    }return true;
 }

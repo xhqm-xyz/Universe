@@ -30,7 +30,7 @@ CSocket_Server::~CSocket_Server()
 	std::vector<ClientConnect*>::iterator it;
 	std::vector<std::string>::iterator ipit;
 	for (it = ClientList.begin(), ipit = IPList.begin();
-		it != ClientList.end(), ipit != IPList.end(); it++, ipit++) {
+		(it != ClientList.end() && ipit != IPList.end()); it++, ipit++) {
 		ClientConnect* Client = (*it);
 		closesocket(Client->socket);
 		ClientList.erase(it);
@@ -79,7 +79,7 @@ bool CSocket_Server::CloseClient(std::string ip)
 	std::vector<ClientConnect*>::iterator it;
 	std::vector<std::string>::iterator ipit;
 	for (it = ClientList.begin(), ipit = IPList.begin();
-		it != ClientList.end(), ipit != IPList.end(); it++, ipit++)
+		(it != ClientList.end() && ipit != IPList.end()); it++, ipit++)
 		if ((*it)->ipform == ip) {
 			ClientConnect* Client = (*it);
 			closesocket(Client->socket);
