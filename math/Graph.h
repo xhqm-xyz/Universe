@@ -1,18 +1,18 @@
 #pragma once
 #ifndef UNIVERSE_MATH_GRAPH
 #define UNIVERSE_MATH_GRAPH
-#include "element.h"
-
+#include "container.h"
+//图论
 template<class _DATACLASS>
 class Graph
 {
 private:
-    nume Potential;//势
-	element<_DATACLASS>* ELE = nullptr;
+    natu Potential;//势
+    container<_DATACLASS>* ELE = nullptr;
 public:
 	~Graph() { clear(); };
     Graph() :Potential(0) {};
-    Graph(element<_DATACLASS>* data){
+    Graph(container<_DATACLASS>* data){
         if (data != NULL)
             for (; AddOneElement(data->DATA);)
                 data = data->Prior;
@@ -25,10 +25,10 @@ public:
 	bite FindElement(_DATACLASS data);
 	bite FindGather(const Gather<_DATACLASS>& gat);
 
-	nume GetPotential() { return Potential; };
-	element<_DATACLASS>* GetElement() { return ELE; };
-    _DATACLASS& operator[](const nume& n) {
-        for (nume i = 0; i < n; i++)
+	natu GetPotential() { return Potential; };
+    container<_DATACLASS>* GetElement() { return ELE; };
+    _DATACLASS& operator[](const natu& n) {
+        for (natu i = 0; i < n; i++)
             if (ELE != nullptr) ELE = ELE->Prior;
         return ELE->DATA;
     }
@@ -56,18 +56,18 @@ public:
 	friend Gather<_DATACLASS> operator + (const Gather<_DATACLASS>& A, const Gather<_DATACLASS>& B){//和集
         Gather<_DATACLASS> Acopy(A.ELE);
         Gather<_DATACLASS> Bcopy(B.ELE);
-        for (nume i = 0; i < Bcopy.GetPotential(); i++) {
+        for (natu i = 0; i < Bcopy.GetPotential(); i++) {
             Bcopy++;
-            Acopy.AddOneElement(Bcopy.GetElement()->Getdata());
+            Acopy.AddOneElement(Bcopy.GetElement()->DATA);
         }Bcopy.clear();
         return Acopy;
     }
     friend Gather<_DATACLASS> operator - (const Gather<_DATACLASS>& A, const Gather<_DATACLASS>& B){//差集
         Gather<_DATACLASS> Acopy(A.ELE);
         Gather<_DATACLASS> Bcopy(B.ELE);
-        for (nume i = 0; i < Bcopy.GetPotential(); i++) {
+        for (natu i = 0; i < Bcopy.GetPotential(); i++) {
             Bcopy++;
-            Acopy.SubOneElement(Bcopy.GetElement()->Getdata());
+            Acopy.SubOneElement(Bcopy.GetElement()->DATA);
         }Bcopy.clear();
         return Acopy;
     }

@@ -1,18 +1,19 @@
 #pragma once
 #ifndef UNIVERSE_MATH_GATHER
 #define UNIVERSE_MATH_GATHER
-#include "element.h"
+#define Element container
+#include "container.h"
 
 template<class _DATACLASS>
 class Gather
 {
 private:
-	nume Potential;//势
-	element<_DATACLASS>* ELE = nullptr;
+	natu Potential;//势
+    Element<_DATACLASS>* ELE = nullptr;
 public:
 	~Gather() { clear(); };
 	Gather() :Potential(0) {};
-	Gather(element<_DATACLASS>* data){
+	Gather(Element<_DATACLASS>* data){
         if (data != NULL)
             for (; AddOneElement(data->DATA);)
                 data = data->Prior;
@@ -25,10 +26,10 @@ public:
 	bite FindElement(_DATACLASS data);
 	bite FindGather(const Gather<_DATACLASS>& gat);
 
-	nume GetPotential() { return Potential; };
-	element<_DATACLASS>* GetElement() { return ELE; };
-    _DATACLASS& operator[](const nume& n) {
-        for (nume i = 0; i < n; i++)
+	natu GetPotential() { return Potential; };
+    Element<_DATACLASS>* GetElement() { return ELE; };
+    _DATACLASS& operator[](const natu& n) {
+        for (natu i = 0; i < n; i++)
             if (ELE != nullptr) ELE = ELE->Prior;
         return ELE->DATA;
     }
@@ -43,10 +44,9 @@ public:
 	friend bite operator>= (const Gather<_DATACLASS>& A, const Gather<_DATACLASS>& B) { return A.Potential >=B.Potential; };//比较势
 	friend bite operator<= (const Gather<_DATACLASS>& A, const Gather<_DATACLASS>& B) { return A.Potential <=B.Potential; };//比较势
 
-    template<class _DATACLASS>
-	friend bite operator== (const Gather<_DATACLASS>& A, const Gather<_DATACLASS>& B);
-    template<class _DATACLASS>
-	friend bite operator!= (const Gather<_DATACLASS>& A, const Gather<_DATACLASS>& B);
+    
+    template<class _DATACLASS> friend bite operator== (const Gather<_DATACLASS>& A, const Gather<_DATACLASS>& B);
+    template<class _DATACLASS> friend bite operator!= (const Gather<_DATACLASS>& A, const Gather<_DATACLASS>& B);
 
     friend void operator + (Gather<_DATACLASS>& A, const _DATACLASS b){ A.AddOneElement(b); };
 	friend void operator - (Gather<_DATACLASS>& A, const _DATACLASS b){ A.SubOneElement(b); };
@@ -56,18 +56,18 @@ public:
 	friend Gather<_DATACLASS> operator + (const Gather<_DATACLASS>& A, const Gather<_DATACLASS>& B){//和集
         Gather<_DATACLASS> Acopy(A.ELE);
         Gather<_DATACLASS> Bcopy(B.ELE);
-        for (nume i = 0; i < Bcopy.GetPotential(); i++) {
+        for (natu i = 0; i < Bcopy.GetPotential(); i++) {
             Bcopy++;
-            Acopy.AddOneElement(Bcopy.GetElement()->Getdata());
+            Acopy.AddOneElement(Bcopy.GetElement()->DATA);
         }Bcopy.clear();
         return Acopy;
     }
     friend Gather<_DATACLASS> operator - (const Gather<_DATACLASS>& A, const Gather<_DATACLASS>& B){//差集
         Gather<_DATACLASS> Acopy(A.ELE);
         Gather<_DATACLASS> Bcopy(B.ELE);
-        for (nume i = 0; i < Bcopy.GetPotential(); i++) {
+        for (natu i = 0; i < Bcopy.GetPotential(); i++) {
             Bcopy++;
-            Acopy.SubOneElement(Bcopy.GetElement()->Getdata());
+            Acopy.SubOneElement(Bcopy.GetElement()->DATA);
         }Bcopy.clear();
         return Acopy;
     }
@@ -89,9 +89,9 @@ Gather<_DATACLASS> Gather<_DATACLASS>::operator = (const Gather<_DATACLASS>& gat
 {
     Gather<_DATACLASS> copy(gat.ELE);
     clear();
-    for (nume i = 0; i < copy.Potential; i++) {
+    for (natu i = 0; i < copy.Potential; i++) {
         copy++;
-        AddOneElement(copy.ELE->Getdata());
+        AddOneElement(copy.ELE->DATA);
     }return copy;
 }
 
@@ -106,7 +106,7 @@ void Gather<_DATACLASS>::clear()
 template<class _DATACLASS>
 bite Gather<_DATACLASS>::FindElement(_DATACLASS data)
 {
-    for (nume i = 0; i < Potential; i++) {
+    for (natu i = 0; i < Potential; i++) {
         if (*ELE == data)
             return true;
         ELE = ELE->Prior;
@@ -121,9 +121,9 @@ bite Gather<_DATACLASS>::FindGather(const Gather<_DATACLASS>& gat)
     if (gat.Potential == 0)
         return true;
     _DATACLASS FIRST = ELE->DATA;
-    element<_DATACLASS>* _p = gat.ELE;
-    for (nume i = 0; i < gat.Potential; i++) {
-        if (FindElement(_p->Getdata()))
+    Element<_DATACLASS>* _p = gat.ELE;
+    for (natu i = 0; i < gat.Potential; i++) {
+        if (FindElement(_p->DATA))
             _p = _p->Prior;
         else
             return false;
@@ -134,7 +134,7 @@ bite Gather<_DATACLASS>::FindGather(const Gather<_DATACLASS>& gat)
 template<class _DATACLASS>
 bite Gather<_DATACLASS>::SubNowElement()
 {
-    element<_DATACLASS>* Oldelement = NULL;
+    Element<_DATACLASS>* Oldelement = NULL;
     if (ELE != NULL) {
         Oldelement = ELE->Prior;
         ELE->After->Prior = ELE->Prior;
@@ -162,7 +162,7 @@ bite Gather<_DATACLASS>::AddOneElement(_DATACLASS data)
 {
     if (FindElement(data))
         return false;
-    element<_DATACLASS>* Newelement = new element<_DATACLASS>(data);
+    Element<_DATACLASS>* Newelement = new Element<_DATACLASS>(data);
     if (ELE != NULL) {
         Newelement->After = ELE;
         Newelement->Prior = ELE->Prior;

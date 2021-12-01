@@ -6,28 +6,32 @@
 class Vector
 {
 protected:
-	vect vec;
-	nume Dimension; //向量被声明后维度仅可被 “?=” 更改
+	oned vec;
 public:
-	Vector(nume dim = 0);
-	Vector(vect meavec);
-	//Vector(sure mea1);
+	Vector(natu dim = 0);
+	Vector(oned meavec);
 	Vector(sure mea1, sure mea2);
 	Vector(sure mea1, sure mea2, sure mea3);
 	Vector(sure mea1, sure mea2, sure mea3, sure mea4);
 	~Vector() { vec.clear(); };
 
-	nume GetDim() { return Dimension; };
-	void Setvect(vect meavec);
+	void AddDim(sure mea = 0) { vec.push_back(mea); };
+	void SubDim() { vec.pop_back(); };
+
+	natu GetDim() { return vec.size(); };
+	void Setvect(oned meavec);
 	void SetVect(Vector vect);
-	vect Getvect(nume n, nume m);
-	Vector GetVect(nume n, nume m);
+	oned Getvect(natu n, natu m);
+	Vector GetVect(natu n, natu m);
 
 
 	sure GetModulus() { return sqrt((*this) * (*this)); };			//得到向量的模
+	Vector GetUnitVec();							//单位化
+	Vector GetTraVec();							//转置向量
+	Vector GetSubVec();							//反向向量
 
 public:
-	sure& operator[] (const nume& n);
+	sure& operator[] (const natu& n);
 
 	Vector operator = (const Vector& vect);
 	bite operator == (const Vector& vect);

@@ -1,4 +1,5 @@
 #pragma once
+#include "../DEFMACRO"
 #ifndef UNIVERSE_MEASURE
 #define UNIVERSE_MEASURE
 #define ONED 1
@@ -13,10 +14,13 @@
 #include <vector>
 #include <iostream>
 using namespace std;
-constexpr auto Pi = 3.141592653578;
-constexpr auto PRECI = 0.00000000001;
+constexpr auto XPi = 3.141592653578;
+constexpr auto XPRECI = 0.00000000001;
+#define XMAX(val1, val2) (val1 > val2) ? val1 : val2
+#define XMIN(val1, val2) (val1 < val2) ? val1 : val2
+#define XEqual(val1, val2, preci) ((1 + preci >= (val1 / val2) && (val1 / val2) >= 1 - preci)) ? true : false
+#define XEqualDouble(val1, val2) XEqual(val1, val2, XPRECI)
 
-typedef unsigned long long counter;	//计数器
 typedef unsigned long long natural;	//自然数
 typedef long long integer;			//整数
 typedef double measure;				//实数
@@ -25,7 +29,6 @@ typedef char symbols;				//符号
 class portion;						//分数
 class complex;						//复数
 
-typedef counter nume;	//计数器
 typedef natural natu;	//自然数
 typedef integer inte;	//整数
 typedef measure sure;	//实数
@@ -35,74 +38,50 @@ typedef portion port;	//分数
 typedef complex plex;	//复数
 
 #define Oned(_T) vector<_T>
-#define Vect(_T) vector<_T>
 #define Twod(_T) vector<vector<_T>>
-#define Dete(_T) vector<vector<_T>>
 #define Thrd(_T) vector<vector<vector<_T>>>
-#define Volu(_T) vector<vector<vector<_T>>>
 #define Foud(_T) vector<vector<vector<vector<_T>>>>
 
-typedef vector<natural> onenatu;
-typedef vector<onenatu> twonatu;
-typedef vector<twonatu> thrnatu;
-typedef vector<thrnatu> founatu;
-typedef onenatu::iterator one_natuiter;
-typedef twonatu::iterator two_natuiter;
-typedef thrnatu::iterator thr_natuiter;
-typedef founatu::iterator fou_natuiter;
+typedef Oned(natural) onenatu;
+typedef Twod(natural) twonatu;
+typedef Thrd(natural) thrnatu;
+typedef Foud(natural) founatu;
 
-typedef vector<integer> oneinte;
-typedef vector<oneinte> twointe;
-typedef vector<twointe> thrinte;
-typedef vector<thrinte> fouinte;
-typedef oneinte::iterator one_inteiter;
-typedef twointe::iterator two_inteiter;
-typedef thrinte::iterator thr_inteiter;
-typedef fouinte::iterator fou_inteiter;
+typedef Oned(integer) oneinte;
+typedef Twod(integer) twointe;
+typedef Thrd(integer) thrinte;
+typedef Foud(integer) fouinte;
 
-typedef vector<measure> onesure;
-typedef vector<onesure> twosure;
-typedef vector<twosure> thrsure;
-typedef vector<thrsure> fousure;
-typedef onesure::iterator one_sureiter;
-typedef twosure::iterator two_sureiter;
-typedef thrsure::iterator thr_sureiter;
-typedef fousure::iterator fou_sureiter;
+typedef Oned(measure) onesure;
+typedef Twod(measure) twosure;
+typedef Thrd(measure) thrsure;
+typedef Foud(measure) fousure;
 
-typedef vector<symbols> onesign;
-typedef vector<onesign> twosign;
-typedef vector<twosign> thrsign;
-typedef vector<thrsign> fousign;
-typedef onesign::iterator one_signiter;
-typedef twosign::iterator two_signiter;
-typedef thrsign::iterator thr_signiter;
-typedef fousign::iterator fou_signiter;
+typedef Oned(symbols) onesign;
+typedef Twod(symbols) twosign;
+typedef Thrd(symbols) thrsign;
+typedef Foud(symbols) fousign;
 
-typedef vector<portion> oneport;
-typedef vector<oneport> twoport;
-typedef vector<twoport> thrport;
-typedef vector<thrport> fouport;
-typedef oneport::iterator one_portiter;
-typedef twoport::iterator two_portiter;
-typedef thrport::iterator thr_portiter;
-typedef fouport::iterator fou_portiter;
+typedef Oned(portion) oneport;
+typedef Twod(portion) twoport;
+typedef Thrd(portion) thrport;
+typedef Foud(portion) fouport;
 
-typedef vector<complex> oneplex;
-typedef vector<oneplex> twoplex;
-typedef vector<twoplex> thrplex;
-typedef vector<thrplex> fouplex;
-typedef oneplex::iterator one_plexiter;
-typedef twoplex::iterator two_plexiter;
-typedef thrplex::iterator thr_plexiter;
-typedef fouplex::iterator fou_plexiter;
+typedef Oned(complex) oneplex;
+typedef Twod(complex) twoplex;
+typedef Thrd(complex) thrplex;
+typedef Foud(complex) fouplex;
 
 typedef onesure oned;
-typedef onesure vect;
 typedef twosure twod;
-typedef twosure dete;
 typedef thrsure thrd;
-typedef thrsure volu;
 typedef fousure foud;
+
+#define Vect Oned
+#define Dete Twod
+#define Volu Thrd
+
+
 
 class portion
 {
@@ -111,7 +90,6 @@ protected:
 	natu _de;
 	bite _inf = false;
 public:
-	portion(sure po) :_de(1) { *this = ToPort(po); };
 	portion(inte mo = 0, inte de = 1) {
 		if (de > 0) {
 			_mo = mo;
@@ -138,7 +116,6 @@ public:
 	inte getmo() { return _mo; };
 	inte getde() { return _de; };
 
-	portion operator = (const inte& get);
 	portion operator = (const sure& get);
 	portion operator = (const port& get);
 
@@ -167,14 +144,14 @@ public:
 
 class complex
 {
-public:
+protected:
 	sure mea;
 	oned _i;
-
+public:
 	complex(sure me, oned i) :mea(me) {
 		if (i.size() == 0)
 			_i.push_back(0);
-		for (nume n = 0; n < i.size(); n++)
+		for (natu n = 0; n < i.size(); n++)
 			_i.push_back(i[n]);
 	};
 	complex(sure me = 0, sure i = 0) :mea(me) {
@@ -198,18 +175,18 @@ public:
 	friend bite operator == (const complex& i, const complex& j);
 	friend bite operator != (const complex& i, const complex& j);
 
-	friend complex operator + (const plex&);
-	friend complex operator - (const plex&);
+	friend complex operator + (const complex&);
+	friend complex operator - (const complex&);
 
 	friend complex operator + (const complex& i, const complex& j);
 	friend complex operator - (const complex& i, const complex& j);
 	friend complex operator * (const complex& i, const complex& j);
 	friend complex operator / (const complex& i, const complex& j);
 
-	complex operator += (const plex& Plex) { return *this = *this + Plex; };
-	complex operator -= (const plex& Plex) { return *this = *this - Plex; };
-	complex operator *= (const plex& Plex) { return *this = *this * Plex; };
-	complex operator /= (const plex& Plex) { return *this = *this / Plex; };
+	complex operator += (const complex& Plex) { return *this = *this + Plex; };
+	complex operator -= (const complex& Plex) { return *this = *this - Plex; };
+	complex operator *= (const complex& Plex) { return *this = *this * Plex; };
+	complex operator /= (const complex& Plex) { return *this = *this / Plex; };
 
 	friend complex operator^ (const complex& p, const integer n);
 };
