@@ -1,27 +1,18 @@
 #include "CSocket.h"
 
-CSocket_Server::CSocket_Server(int port, IPPROTO net) :
+CSocket_Server::CSocket_Server(int port, IPPROTO net) : m_net(net),
 	m_wsa(false), m_bind(false), m_socket(false), m_listen(false)
 {
 	if (WSAStartup(Sever_info.sockVersion, &Sever_info.wsaData) == 0)
 		m_wsa = true;//初始化WSA
-
-	Sever_info.socket = socket(AF_INET, SOCK_STREAM, net);
-
+	switch (m_net)
+	{
+	case IPPROTO_TCP:Sever_info.socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP); break;
+	case IPPROTO_UDP:Sever_info.socket = socket(AF_INET, SOCK_DGRAM , IPPROTO_UDP); break;
+	}
 	if (Sever_info.socket != INVALID_SOCKET)
 		m_socket = true;//创建套接字
-
-	SetConnect(port);
-}
-CSocket_Server::CSocket_Server(IPPROTO net) :
-	m_wsa(false), m_bind(false), m_socket(false), m_listen(false)
-{
-	if (WSAStartup(Sever_info.sockVersion, &Sever_info.wsaData) == 0)
-		m_wsa = true;//初始化WSA
-
-	Sever_info.socket = socket(AF_INET, SOCK_STREAM, net);
-	if (Sever_info.socket != INVALID_SOCKET)
-		m_socket = true;//创建套接字
+	SetBind(port);
 }
 
 CSocket_Server::~CSocket_Server()
@@ -40,24 +31,17 @@ CSocket_Server::~CSocket_Server()
 	WSACleanup();
 }
 
-ClientConnect* CSocket_Server::GetClient(std::string ip)
-{
-	std::vector<ClientConnect*>::iterator it;
-	for (it = ClientList.begin(); it != ClientList.end(); it++) {
-		if ((*it)->ipform == ip)
-			return (*it);
-	}return nullptr;
-}
-
-bool CSocket_Server::SetConnect(int port)
+bool CSocket_Server::SetBind(int port)
 {
 	if (m_bind == true)
 		m_bind = closesocket(Sever_info.socket);
 	Sever_info.addr.sin_family = AF_INET;
 	Sever_info.addr.sin_port = htons(port);
-	Sever_info.addr.sin_addr.S_un.S_addr = (ULONG)INADDR_ANY;//0x1d91ca3601;//inet_addr(ip.c_str());//
+	Sever_info.addr.sin_addr.S_un.S_addr = htonl(INADDR_ANY);//(ULONG)INADDR_ANY;//0x1d91ca3601;////
 	if (bind(Sever_info.socket, (LPSOCKADDR)&Sever_info.addr, sizeof(Sever_info.addr)) != SOCKET_ERROR)
 		m_bind = true;//绑定IP和端口
+	if (m_net == IPPROTO_UDP)
+		return m_bind;
 	if (m_bind)
 		m_listener = new std::thread(StarListen, this);
 	return m_bind;
@@ -65,8 +49,7 @@ bool CSocket_Server::SetConnect(int port)
 
 bool CSocket_Server::OpenClient(ClientConnect* Client)
 {
-	std::vector<ClientConnect*>::iterator it;
-	for (it = ClientList.begin(); it != ClientList.end(); it++)
+	for (auto it = ClientList.begin(); it != ClientList.end(); it++)
 		if ((*it)->ipform == Client->ipform)
 			return false;
 	ClientList.push_back(Client);
@@ -93,19 +76,39 @@ bool CSocket_Server::CloseClient(std::string ip)
 
 bool CSocket_Server::Ssend(const char* mes, std::string ip)
 {
-	std::vector<ClientConnect*>::iterator it;
-	for (it = ClientList.begin(); it != ClientList.end(); it++)
-		if ((*it)->ipform == ip)
-			return CSocket_Server::Ssend(mes, (*it)->socket);
-	return false;
+	if (m_net == IPPROTO_TCP) {
+		for (auto it = ClientList.begin(); it != ClientList.end(); it++)
+			if ((*it)->ipform == ip)
+				return (send((*it)->socket, mes, strlen(mes), 0) != SOCKET_ERROR);
+	} else {
+		Sever_info.addr.sin_addr.S_un.S_addr = inet_addr(ip.c_str());;
+		return (sendto(Sever_info.socket, mes, strlen(mes), 0, (sockaddr*)&Sever_info.addr, sizeof(Sever_info.addr)) != SOCKET_ERROR);
+	} return false;
 }
 
-void CSocket_Server::Srecv(Sock_DealFun Fun, std::string ip)
+void CSocket_Server::Srecv(Sock_DealFun Fun, std::string &ip)
 {
-	std::vector<ClientConnect*>::iterator it;
-	for (it = ClientList.begin(); it != ClientList.end(); it++)
-		if ((*it)->ipform == ip)
-			CSocket_Server::Srecv(Fun, (*it)->socket);
+	int ret = 0;
+	char* mes = new char[DATALEN];
+	ClientConnect* clt = nullptr;
+	if (m_net == IPPROTO_TCP) {
+		for (auto it = ClientList.begin(); it != ClientList.end(); it++)
+			if ((*it)->ipform == ip)
+				clt = *it;
+		ret = recv(Sever_info.socket, mes, DATALEN, 0);
+	}
+	else {
+		int len = sizeof(Sever_info.addr);
+		ret = recvfrom(Sever_info.socket, mes, DATALEN, 0, (sockaddr*)&Sever_info.addr, &len);
+		ip = inet_ntoa(Sever_info.addr.sin_addr);
+	}
+	if (ret > 0)
+		if (Fun)
+			(*Fun)(mes, ret);
+	delete[] mes;
+	auto ipit = std::find(IPList.begin(), IPList.end(), ip);
+	if (ipit == IPList.end())
+		IPList.push_back(ip);
 }
 
 bool CSocket_Server::StarListen(CSocket_Server* server)
@@ -122,6 +125,7 @@ bool CSocket_Server::StarListen(CSocket_Server* server)
 		if (OneClient->socket == INVALID_SOCKET)
 			continue;
 		OneClient->ipform = inet_ntoa(OneClient->addr.sin_addr);
+		printf((OneClient->ipform + "已连接\n").c_str());
 		server->OpenClient(OneClient);
 	}if (server->m_listener)
 		delete server->m_listener;
@@ -137,22 +141,6 @@ bool CSocket_Server::StopListen(CSocket_Server* server)
 	}return server->m_listen;//未开始监听
 }
 
-bool CSocket_Server::Ssend(const char* mes, SOCKET socket)
-{
-	if (send(socket, mes, strlen(mes), 0) == 0)
-		return true;
-	return false;
-}
-
-void CSocket_Server::Srecv(Sock_DealFun Fun, SOCKET socket)
-{
-	char* mes = new char[DATALEN];
-	int ret = recv(socket, mes, DATALEN, 0);
-	if (ret > 0)
-		if (Fun)
-			(*Fun)(mes, ret);
-	delete[] mes;
-}
 
 
 
@@ -168,31 +156,20 @@ void CSocket_Server::Srecv(Sock_DealFun Fun, SOCKET socket)
 
 
 
-
-CSocket_Client::CSocket_Client(std::string ip, int port, IPPROTO net) :
+CSocket_Client::CSocket_Client(std::string ip, int port, IPPROTO net) : m_net(net),
 	m_wsa(false), m_connect(false), m_socket(false)
 {
 	Client_info.sockVersion = MAKEWORD(2, 2);
 	if (WSAStartup(Client_info.sockVersion, &Client_info.wsaData) == 0)
 		m_wsa = true;
-
-	Client_info.socket = socket(AF_INET, SOCK_STREAM, net);
+	switch (m_net)
+	{
+	case IPPROTO_TCP:Client_info.socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP); break;
+	case IPPROTO_UDP:Client_info.socket = socket(AF_INET, SOCK_DGRAM , IPPROTO_UDP); break;
+	}
 	if (Client_info.socket != INVALID_SOCKET)
 		m_socket = true;//创建套接字
-
 	SetConnect(ip, port);
-}
-
-CSocket_Client::CSocket_Client(IPPROTO net) :
-	m_wsa(false), m_connect(false), m_socket(false)
-{
-	Client_info.sockVersion = MAKEWORD(2, 2);
-	if (WSAStartup(Client_info.sockVersion, &Client_info.wsaData) == 0)
-		m_wsa = true;
-
-	Client_info.socket = socket(AF_INET, SOCK_STREAM, net);
-	if (Client_info.socket != INVALID_SOCKET)
-		m_socket = true;//创建套接字
 }
 
 CSocket_Client::~CSocket_Client()
@@ -208,6 +185,8 @@ bool CSocket_Client::SetConnect(std::string ip, int port)
 	Client_info.addr.sin_family = AF_INET;
 	Client_info.addr.sin_port = htons(port);
 	Client_info.addr.sin_addr.S_un.S_addr = inet_addr(ip.c_str());
+	if(m_net == IPPROTO_UDP)
+		return m_connect;
 	if (connect(Client_info.socket, (sockaddr*)&Client_info.addr, sizeof(Client_info.addr)) != SOCKET_ERROR)
 		m_connect = true;//绑定IP和端口
 	return m_connect;
@@ -215,18 +194,28 @@ bool CSocket_Client::SetConnect(std::string ip, int port)
 
 bool CSocket_Client::Csend(const char* mes)
 {
-	if (send(Client_info.socket, mes, strlen(mes), 0) == 0)
-		return true;
-	return false;
+	if (m_net == IPPROTO_TCP) {
+		if (send(Client_info.socket, mes, strlen(mes), 0) != SOCKET_ERROR)
+			return true;
+	} else {
+		if (sendto(Client_info.socket, mes, strlen(mes), 0, (sockaddr*)&Client_info.addr, sizeof(Client_info.addr)) != SOCKET_ERROR)
+			return true;
+	} return false;
 }
 
 void CSocket_Client::Crecv(Sock_DealFun Fun)
 {
 	char* mes = new char[DATALEN];
-	int ret = recv(Client_info.socket, mes, DATALEN, 0);
+	int ret = 0;
+	
+	if (m_net == IPPROTO_TCP)
+		ret = recv(Client_info.socket, mes, DATALEN, 0);
+	else {
+		int len = sizeof(Client_info.addr);
+		ret = recvfrom(Client_info.socket, mes, DATALEN, 0, (sockaddr*)&Client_info.addr, &len);
+	}
 	if (ret > 0)
 		if (Fun)
 			(*Fun)(mes, ret);
 	delete[] mes;
 }
-
